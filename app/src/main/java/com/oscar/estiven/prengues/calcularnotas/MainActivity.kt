@@ -10,9 +10,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nombre: EditText
     private lateinit var notas: EditText
     private lateinit var porsentajes: EditText
-    private lateinit var Retornar:Button
-    private lateinit var Finalizar:Button
-
+    private lateinit var Retornar: Button
+    private lateinit var Finalizar: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +27,12 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
+        
+
     }
-
-
-
-
 }
+
+
+

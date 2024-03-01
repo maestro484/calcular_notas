@@ -13,12 +13,12 @@
         android:enabled="false"
         android:text="finalizar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/Retornar"
+        app:layout_constraintStart_toEndOf="@id/siguinete"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Retornar" />
+        app:layout_constraintTop_toBottomOf="@id/siguinete" />
 
     <Button
-        android:id="@+id/Retornar"
+        android:id="@+id/siguinete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="208dp"
@@ -113,6 +113,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Restart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="siguiente estidiante"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/siguinete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Finalizar" />
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

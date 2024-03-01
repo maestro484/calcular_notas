@@ -2,11 +2,13 @@ package com.oscar.estiven.prengues.calcularnotas
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import kotlin.contracts.Returns
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,14 +16,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nombreIngresado: EditText
     private lateinit var notasIngresadas: EditText
     private lateinit var porsentajesIngresados: EditText
-    private lateinit var Retornar: Button
+    private lateinit var siguiente: Button
     private lateinit var Finalizar: Button
     private lateinit var progreso: ProgressBar
     private lateinit var vistaPromedioFinal: TextView
     private lateinit var vistaNotaFinal: TextView
+    private lateinit var Restart: Button
 
-
-    private var porcentajeAcumulado  = 0
+    private var porcentajeAcumulado = 0
 
     val listaDePorcentaje: MutableList<Int> = mutableListOf()
 
@@ -35,20 +37,26 @@ class MainActivity : AppCompatActivity() {
         nombreIngresado = findViewById(R.id.nombreIngresado)
         notasIngresadas = findViewById(R.id.notasIngresadas)
         porsentajesIngresados = findViewById(R.id.porcentajesIngresados)
-        Retornar = findViewById(R.id.Retornar)
+        siguiente = findViewById(R.id.siguinete)
         Finalizar = findViewById(R.id.Finalizar)
         progreso = findViewById(R.id.progreso)
         vistaPromedioFinal = findViewById(R.id.vistaPromedioFinal)
         vistaNotaFinal = findViewById(R.id.vistaNotaFinal)
+        Restart = findViewById(R.id.Restart)
 
-        Finalizar.setOnClickListener(){
 
-               vistaNotaFinal.text = "nota final : " + porcentajeAcumulado
 
-               vistaPromedioFinal.text = "promedio: "  + calcularpromedio()
-           }
 
-        Retornar.setOnClickListener {
+
+
+        Finalizar.setOnClickListener {
+
+            vistaNotaFinal.text = "nota final : " + notaFinal()
+
+            vistaPromedioFinal.text = "promedio: " + calcularpromedio()
+        }
+
+        siguiente.setOnClickListener {
 
 
             val nota = notasIngresadas.text.toString()
@@ -56,11 +64,11 @@ class MainActivity : AppCompatActivity() {
             val nombre = nombreIngresado.text.toString()
 
 
-            if (validarVacio(nombre, nota, porcentaje)){
+            if (validarVacio(nombre, nota, porcentaje)) {
                 if (validarNombre(nombre) &&
                     validarNotas(nota.toDouble()) &&
                     validarPorcentaje((porcentaje.toInt()))
-                ){
+                ) {
                     listaDeNotas.add(nota.toDouble())
                     listaDePorcentaje.add(porcentaje.toInt())
 
@@ -73,26 +81,29 @@ class MainActivity : AppCompatActivity() {
                     porsentajesIngresados.text.clear()
 
                     mostrarMensaje("la nota fue ingresada correctamente")
-                }else{
+                } else {
                     mostrarMensaje("verifique los datos ingresados")
                 }
-            }else{
+            } else {
                 mostrarMensaje("Datos incompletos")
             }
         }
     }
 
-    fun actualizarProgress(porcentaje : Int) {
+    fun actualizarProgress(porcentaje: Int) {
         progreso.progress = porcentaje
-        if (porcentaje >= 100){
+        if (porcentaje >= 100) {
             Finalizar.isEnabled = true
 
         }
     }
-    fun mostrarMensaje(mensaje : String){
-        Toast.makeText(this,
+
+    fun mostrarMensaje(mensaje: String) {
+        Toast.makeText(
+            this,
             mensaje,
-            Toast.LENGTH_LONG).show()
+            Toast.LENGTH_LONG
+        ).show()
     }
 
 
@@ -108,23 +119,38 @@ class MainActivity : AppCompatActivity() {
 
         return (nota >= 0.0 && nota <= 5.0)
     }
-    fun validarPorcentaje(porcentaje : Int ) : Boolean{
-        return porcentajeAcumulado + porcentaje <=100
+
+    fun validarPorcentaje(porcentaje: Int): Boolean {
+        return porcentajeAcumulado + porcentaje <= 100
     }
 
-fun calcularpromedio(): Double{
+    fun calcularpromedio(): Double {
 
-    var p = 0.0
+        var p = 0.0
 
-    for(n in listaDeNotas){
+        for (n in listaDeNotas) {
 
-        p += n
+            p += n
+        }
+        return p / listaDeNotas.size
+
     }
-    return p / listaDeNotas.size
 
- }
+    fun notaFinal(): Double {
+
+        var notaFinal: Double = 0.0
+        var contador = 0
+
+        for (n in listaDeNotas) {
+            notaFinal += (n * listaDeNotas[contador]) / 100
+            contador++
+
+        }
+      return notaFinal
+    }
 
 }
+
 
 
 

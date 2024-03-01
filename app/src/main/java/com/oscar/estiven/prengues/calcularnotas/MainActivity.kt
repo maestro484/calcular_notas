@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var Retornar: Button
     private lateinit var Finalizar: Button
     private lateinit var progreso: ProgressBar
+    private lateinit var vistaPromedioFinal: TextView
+    private lateinit var vistaNotaFinal: TextView
 
 
     private var porcentajeAcumulado  = 0
@@ -35,6 +38,15 @@ class MainActivity : AppCompatActivity() {
         Retornar = findViewById(R.id.Retornar)
         Finalizar = findViewById(R.id.Finalizar)
         progreso = findViewById(R.id.progreso)
+        vistaPromedioFinal = findViewById(R.id.vistaPromedioFinal)
+        vistaNotaFinal = findViewById(R.id.vistaNotaFinal)
+
+        Finalizar.setOnClickListener(){
+
+               vistaNotaFinal.text = "nota final : " + porcentajeAcumulado
+
+               vistaPromedioFinal.text = "promedio: "  + calcularpromedio()
+           }
 
         Retornar.setOnClickListener {
 
@@ -56,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
                     actualizarProgress(porcentajeAcumulado)
 
-                    nombreIngresado.isEnabled = false
+                    nombreIngresado.isEnabled = true
                     notasIngresadas.text.clear()
                     porsentajesIngresados.text.clear()
 
@@ -70,11 +82,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     fun actualizarProgress(porcentaje : Int) {
         progreso.progress = porcentaje
         if (porcentaje >= 100){
             Finalizar.isEnabled = true
+
         }
     }
     fun mostrarMensaje(mensaje : String){
@@ -99,6 +111,18 @@ class MainActivity : AppCompatActivity() {
     fun validarPorcentaje(porcentaje : Int ) : Boolean{
         return porcentajeAcumulado + porcentaje <=100
     }
+
+fun calcularpromedio(): Double{
+
+    var p = 0.0
+
+    for(n in listaDeNotas){
+
+        p += n
+    }
+    return p / listaDeNotas.size
+
+ }
 
 }
 

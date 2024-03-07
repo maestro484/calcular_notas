@@ -46,10 +46,22 @@ class MainActivity : AppCompatActivity() {
 
 
 
+     Restart.setOnClickListener{
+
+         vistaNotaFinal.visibility = View.GONE
+         vistaPromedioFinal.visibility = View.GONE
+
+         nombreIngresado.text.clear()
+         notasIngresadas.text.clear()
+         porsentajesIngresados.text.clear()
 
 
+     }
 
         Finalizar.setOnClickListener {
+
+            vistaNotaFinal.visibility = View.VISIBLE
+            vistaPromedioFinal.visibility = View.VISIBLE
 
             vistaNotaFinal.text = "nota final : " + notaFinal()
 

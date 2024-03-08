@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>MainActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6897bb;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.oscar.estiven.prengues.calcularnotas</span>
+
+<span class="s1">import androidx.appcompat.app.AppCompatActivity</span>
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import android.widget.Button</span>
+<span class="s1">import android.widget.EditText</span>
+<span class="s1">import android.widget.ProgressBar</span>
+<span class="s1">import android.widget.Toast</span>
+
+<span class="s0">class </span><span class="s1">MainActivity : AppCompatActivity() {</span>
+
+    <span class="s2">//aqui declaramos todos las cosas que colocamos el la vista</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">nombreIngresado: EditText</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">notasIngresadas: EditText</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">porsentajesIngresados: EditText</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">Retornar: Button</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">Finalizar: Button</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">progreso: ProgressBar</span>
+
+
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">porcentajeAcumulado  = </span><span class="s3">0</span>
+
+    <span class="s0">val </span><span class="s1">listaDePorcentaje: MutableList&lt;Int&gt; = mutableListOf()</span>
+
+    <span class="s0">val </span><span class="s1">listaDeNotas: MutableList&lt;Double&gt; = mutableListOf()</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+        <span class="s1">setContentView(R.layout.entrada)</span>
+
+<span class="s2">// aqui llamamos las cosas de claradas</span>
+        <span class="s1">nombreIngresado = findViewById(R.id.nombreIngresado)</span>
+        <span class="s1">notasIngresadas = findViewById(R.id.notasIngresadas)</span>
+        <span class="s1">porsentajesIngresados = findViewById(R.id.porcentajesIngresados)</span>
+        <span class="s1">Retornar = findViewById(R.id.Retornar)</span>
+        <span class="s1">Finalizar = findViewById(R.id.Finalizar)</span>
+        <span class="s1">progreso = findViewById(R.id.progreso)</span>
+
+        <span class="s1">Retornar.setOnClickListener {</span>
+
+
+            <span class="s0">val </span><span class="s1">nota = notasIngresadas.text.toString()</span>
+            <span class="s0">val </span><span class="s1">porcentaje = porsentajesIngresados.text.toString()</span>
+            <span class="s0">val </span><span class="s1">nombre = nombreIngresado.text.toString()</span>
+
+
+            <span class="s0">if </span><span class="s1">(validarVacio(nombre</span><span class="s0">, </span><span class="s1">nota</span><span class="s0">, </span><span class="s1">porcentaje)){</span>
+                <span class="s0">if </span><span class="s1">(validarNombre(nombre) &amp;&amp;</span>
+                    <span class="s1">validarNotas(nota.toDouble()) &amp;&amp;</span>
+                    <span class="s1">validarPorcentaje((porcentaje.toInt()))</span>
+                <span class="s1">){</span>
+                    <span class="s1">listaDeNotas.add(nota.toDouble())</span>
+                    <span class="s1">listaDePorcentaje.add(porcentaje.toInt())</span>
+
+                    <span class="s1">porcentajeAcumulado += porcentaje.toInt()</span>
+
+                    <span class="s1">actualizarProgress(porcentajeAcumulado)</span>
+
+                    <span class="s1">nombreIngresado.isEnabled = </span><span class="s0">true</span>
+                    <span class="s1">notasIngresadas.text.clear()</span>
+                    <span class="s1">porsentajesIngresados.text.clear()</span>
+
+                    <span class="s1">mostrarMensaje(</span><span class="s4">&quot;la nota fue ingresada correctamente&quot;</span><span class="s1">)</span>
+                <span class="s1">}</span><span class="s0">else</span><span class="s1">{</span>
+                    <span class="s1">mostrarMensaje(</span><span class="s4">&quot;verifique los datos ingresados&quot;</span><span class="s1">)</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span><span class="s0">else</span><span class="s1">{</span>
+                <span class="s1">mostrarMensaje(</span><span class="s4">&quot;Datos incompletos&quot;</span><span class="s1">)</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">fun </span><span class="s1">actualizarProgress(porcentaje : Int) {</span>
+        <span class="s1">progreso.progress = porcentaje</span>
+        <span class="s0">if </span><span class="s1">(porcentaje &gt;= </span><span class="s3">100</span><span class="s1">){</span>
+            <span class="s1">Finalizar.isEnabled = </span><span class="s0">true</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">fun </span><span class="s1">mostrarMensaje(mensaje : String){</span>
+        <span class="s1">Toast.makeText(</span><span class="s0">this,</span>
+            <span class="s1">mensaje</span><span class="s0">,</span>
+            <span class="s1">Toast.LENGTH_LONG).show()</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">fun </span><span class="s1">validarVacio(nombre: String</span><span class="s0">, </span><span class="s1">nota: String</span><span class="s0">, </span><span class="s1">porsentaje: String): Boolean {</span>
+        <span class="s0">return </span><span class="s1">!nombre.isNullOrEmpty() || nota.isNotEmpty() || porsentaje.isNullOrEmpty()</span>
+    <span class="s1">}</span>
+
+    <span class="s0">fun </span><span class="s1">validarNombre(nombre: String): Boolean {</span>
+        <span class="s0">return </span><span class="s1">!nombre.matches(Regex(</span><span class="s4">&quot;.</span><span class="s0">\\</span><span class="s4">d.*&quot;</span><span class="s1">))</span>
+    <span class="s1">}</span>
+
+    <span class="s0">fun </span><span class="s1">validarNotas(nota: Double): Boolean {</span>
+
+        <span class="s0">return </span><span class="s1">(nota &gt;= </span><span class="s3">0.0 </span><span class="s1">&amp;&amp; nota &lt;= </span><span class="s3">5.0</span><span class="s1">)</span>
+    <span class="s1">}</span>
+    <span class="s0">fun </span><span class="s1">validarPorcentaje(porcentaje : Int ) : Boolean{</span>
+        <span class="s0">return </span><span class="s1">porcentajeAcumulado + porcentaje &lt;=</span><span class="s3">100</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</body>
+</html>

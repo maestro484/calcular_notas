@@ -61,6 +61,10 @@ class MainActivity : AppCompatActivity() {
          nombreIngresado.isEnabled = true
          vistaPromedioFinal.text = ""
          vistaNotaFinal.text = ""
+        porcentajeAcumulado = 0
+
+
+
      }
 
         Finalizar.setOnClickListener {

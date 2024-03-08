@@ -48,10 +48,10 @@ class MainActivity : AppCompatActivity() {
 
      Restart.setOnClickListener{
 
-         vistaNotaFinal.visibility = View.GONE
-         vistaPromedioFinal.visibility = View.GONE
-          Finalizar.visibility = View.GONE
-         Restart.visibility = View.GONE
+         vistaNotaFinal.visibility = View.VISIBLE
+         vistaPromedioFinal.visibility = View.VISIBLE
+          Finalizar.visibility = View.INVISIBLE
+         Restart.visibility = View.INVISIBLE
 
 
          nombreIngresado.text.clear()
@@ -59,10 +59,11 @@ class MainActivity : AppCompatActivity() {
          porsentajesIngresados.text.clear()
          progreso.progress = 0
          nombreIngresado.isEnabled = true
-         vistaPromedioFinal.text = ""
-         vistaNotaFinal.text = ""
+         vistaPromedioFinal.text = " "
+         vistaNotaFinal.text = " "
         porcentajeAcumulado = 0
-
+         listaDePorcentaje.clear()
+         listaDeNotas.clear()
 
 
      }
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         siguiente.setOnClickListener {
-
+            Finalizar.visibility = View.VISIBLE
 
 
             val nota = notasIngresadas.text.toString()
@@ -164,12 +165,12 @@ class MainActivity : AppCompatActivity() {
         var notaFinal: Double = 0.0
         var contador = 0
 
-        for (n in listaDeNotas) {
+        for (n in listaDePorcentaje) {
             notaFinal += (n * listaDePorcentaje[contador]) / 100
             contador++
 
         }
-      return Math.round(notaFinal * 1000.0) / 1000.0
+      return Math.round(notaFinal * 1000.00) / 1000.00
     }
 
 }
